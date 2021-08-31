@@ -1,41 +1,125 @@
-import React from 'react';
-import { render } from 'react-dom';
-import { Router, browserHistory } from 'react-router';
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose } from 'redux';
-import createSagaMiddleware from 'redux-saga';
-import thunkMiddleware from 'redux-thunk';
-import routeConfig from './routes';
-import reducers from './reducers';
-import rootSaga from './sagas';
+import React from "react";
 
-const sagaMiddleware = createSagaMiddleware();
+import { Route, Switch } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
+import {
+  Button,
+  AppBar,
+  Toolbar,
+} from "@material-ui/core";
+import NavLink from "./components/NavLink";
 
-let store;
+import WorkflowSearch from "./pages/executions/WorkflowSearch";
+import TaskSearch from "./pages/executions/TaskSearch";
 
-const middlewares = [thunkMiddleware, sagaMiddleware];
+import Execution from "./pages/execution/Execution";
+import WorkflowDefinitions from "./pages/definitions/Workflow";
+import WorkflowDefinition from "./pages/definition/Workflow";
+import TaskDefinitions from "./pages/definitions/Task";
+import TaskDefinition from "./pages/definition/Task";
+import EventHandlerDefinitions from "./pages/definitions/EventHandler";
+import EventHandlerDefinition from "./pages/definition/EventHandler";
+import TaskQueue from "./pages/misc/TaskQueue";
+import KitchenSink from "./pages/kitchensink/KitchenSink";
+import DiagramTest from "./pages/kitchensink/DiagramTest";
+import Examples from "./pages/kitchensink/Examples";
+import Gantt from "./pages/kitchensink/Gantt";
 
-if (process.env.NODE_ENV === "development") {
-  // eslint-disable-next-line no-underscore-dangle
-  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+import AppBarModules from "./plugins/AppBarModules";
+import AppLogo from "./plugins/AppLogo";
 
-  store = createStore(reducers, composeEnhancers(applyMiddleware(...middlewares)));
-} else {
-  store = createStore(reducers, applyMiddleware(...middlewares));
+const useStyles = makeStyles((theme) => ({
+  root: {
+    backgroundColor: "#efefef", // TODO: Use theme var
+    display: "flex",
+  },
+  body: {
+    width: "100vw",
+    height: "100vh",
+    paddingTop: theme.mixins.toolbar.minHeight,
+  },
+  toolbarRight: {
+    marginLeft: "auto",
+    display: "flex",
+    flexDirection: "row",
+  },
+  logo :{
+    height: 55,
+    marginRight: 30
+  }
+}));
+
+export default function App() {
+
+  const classes = useStyles();
+
+  return (
+    // Provide context for backward compatibility with class components
+      <div className={classes.root}>
+        <AppBar position="fixed">
+          <Toolbar>
+            <AppLogo />
+            <Button component={NavLink} path="/">
+              Executions
+            </Button>
+            <Button component={NavLink} path="/workflowDef">
+              Definitions
+            </Button>
+            <Button component={NavLink} path="/taskQueue">
+              Task Queues
+            </Button>
+            <div className={classes.toolbarRight}>
+              <AppBarModules />
+            </div>
+          </Toolbar>
+        </AppBar>
+        <div className={classes.body}>
+          <Switch>
+            <Route exact path="/">
+              <WorkflowSearch />
+            </Route>
+            <Route exact path="/search/by-tasks">
+              <TaskSearch />
+            </Route>
+            <Route exact path="/execution/:id">
+              <Execution />
+            </Route>
+
+            <Route exact path="/workflowDef">
+              <WorkflowDefinitions />
+            </Route>
+            <Route exact path="/workflowDef/:name/:version?">
+              <WorkflowDefinition />
+            </Route>
+            <Route exact path="/taskDef">
+              <TaskDefinitions />
+            </Route>
+            <Route exact path="/taskDef/:name">
+              <TaskDefinition />
+            </Route>
+            <Route exact path="/eventHandlerDef">
+              <EventHandlerDefinitions />
+            </Route>
+            <Route exact path="/eventHandlerDef/:name">
+              <EventHandlerDefinition />
+            </Route>
+            <Route exact path="/taskQueue/:name?">
+              <TaskQueue />
+            </Route>
+            <Route exact path="/kitchen">
+              <KitchenSink />
+            </Route>
+            <Route exact path="/kitchen/diagram">
+              <DiagramTest />
+            </Route>
+            <Route exact path="/kitchen/examples">
+              <Examples />
+            </Route>
+            <Route exact path="/kitchen/gantt">
+              <Gantt />
+            </Route>
+          </Switch>
+        </div>
+      </div>
+  );
 }
-
-sagaMiddleware.run(rootSaga);
-
-function updateLocation() {
-  store.dispatch({
-    type: 'LOCATION_UPDATED',
-    location: this.state.location.key
-  });
-}
-
-render(
-  <Provider store={store}>
-    <Router history={browserHistory} routes={routeConfig} onUpdate={updateLocation} />
-  </Provider>,
-  document.getElementById('content')
-);
