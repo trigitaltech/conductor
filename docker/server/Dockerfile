@@ -5,7 +5,7 @@
 # 0. Builder stage
 FROM openjdk:11-jdk AS builder
 
-MAINTAINER Netflix OSS <conductor@netflix.com>
+LABEL maintainer="Netflix OSS <conductor@netflix.com>"
 
 # Copy the project directly onto the image
 COPY . /conductor
@@ -17,7 +17,7 @@ RUN ./gradlew build -x test
 # 1. Bin stage
 FROM openjdk:11-jre
 
-MAINTAINER Netflix OSS <conductor@netflix.com>
+LABEL maintainer="Netflix OSS <conductor@netflix.com>"
 
 # Make app folders
 RUN mkdir -p /app/config /app/logs /app/libs
