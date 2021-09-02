@@ -5,9 +5,11 @@
 .DS_Store
 .idea
 .vscode
+.nqlocal
 
 /client/python/conductor.egg-info
 /docs/site
+/server/node_modules
 
 dump.rdb
 buildscan.log
