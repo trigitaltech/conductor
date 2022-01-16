@@ -209,11 +209,6 @@
             "locked": "7.6.2"
         }
     },
-    "shadow": {
-        "org.springframework.boot:spring-boot-starter": {
-            "locked": "2.3.12.RELEASE"
-        }
-    },
     "testCompileClasspath": {
         "com.fasterxml.jackson.core:jackson-core": {
             "locked": "2.11.4"
@@ -429,9 +424,6 @@
         },
         "org.elasticsearch.client:elasticsearch-rest-high-level-client": {
             "locked": "7.6.2"
-        },
-        "org.springframework.boot:spring-boot-starter": {
-            "locked": "2.3.12.RELEASE"
         },
         "org.springframework.boot:spring-boot-starter-log4j2": {
             "locked": "2.3.12.RELEASE"

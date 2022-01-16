@@ -11,16 +11,16 @@
  *  specific language governing permissions and limitations under the License.
  */
 
-plugins {
-    id 'com.github.johnrengelman.shadow' version '6.1.0'
-    id 'java'
-}
-
-configurations {
-    // Prevent shaded dependencies from being published, while keeping them available to tests
-    shadow.extendsFrom compileOnly
-    testRuntime.extendsFrom compileOnly
-}
+//plugins {
+//    id 'com.github.johnrengelman.shadow' version '6.1.0'
+//    id 'java'
+//}
+//
+//configurations {
+//    // Prevent shaded dependencies from being published, while keeping them available to tests
+//    shadow.extendsFrom compileOnly
+//    testRuntime.extendsFrom compileOnly
+//}
 
 ext['elasticsearch.version'] = revElasticSearch7
 
@@ -46,17 +46,17 @@ dependencies {
     testImplementation project(':conductor-common').sourceSets.test.output
 }
 
-// Drop the classifier and delete jar task actions to replace the regular jar artifact with the shadow artifact
-shadowJar {
-    configurations = [project.configurations.shadow]
-    classifier = null
-
-    // Service files are not included by default.
-    mergeServiceFiles {
-        include 'META-INF/services/*'
-        include 'META-INF/maven/*'
-    }
-}
-
-jar.enabled = false
-jar.dependsOn shadowJar
+//// Drop the classifier and delete jar task actions to replace the regular jar artifact with the shadow artifact
+//shadowJar {
+//    configurations = [project.configurations.shadow]
+//    classifier = null
+//
+//    // Service files are not included by default.
+//    mergeServiceFiles {
+//        include 'META-INF/services/*'
+//        include 'META-INF/maven/*'
+//    }
+//}
+//
+//jar.enabled = false
+//jar.dependsOn shadowJar

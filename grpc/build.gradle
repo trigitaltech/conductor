@@ -38,11 +38,19 @@ dependencies {
 
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:${revProtoBuf}"
+        if (osdetector.os == "osx") {
+            artifact = "com.google.protobuf:protoc:${revProtoBuf}:osx-x86_64"
+        } else {
+            artifact = "com.google.protobuf:protoc:${revProtoBuf}"
+        }
     }
     plugins {
         grpc {
-            artifact = "io.grpc:protoc-gen-grpc-java:${revGrpc}"
+            if (osdetector.os == "osx") {
+                artifact = "io.grpc:protoc-gen-grpc-java:${revGrpc}:osx-x86_64"
+            } else {
+                artifact = "io.grpc:protoc-gen-grpc-java:${revGrpc}"
+            }
         }
     }
     generateProtoTasks {

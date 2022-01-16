@@ -55,6 +55,11 @@ public class RedisProperties {
     private String hosts = null;
 
     /**
+     * Dynomite Cluster password
+     */
+    private String password = null;
+
+    /**
      * The prefix used to prepend workflow data in redis
      */
     private String workflowNamespacePrefix = null;
@@ -134,6 +139,10 @@ public class RedisProperties {
     public String getHosts() {
         return hosts;
     }
+
+    public String getPassword() { return password; }
+
+    public void setPassword(String password) { this.password = password; }
 
     public void setHosts(String hosts) {
         this.hosts = hosts;

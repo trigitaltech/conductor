@@ -42,6 +42,6 @@ public class RedisStandaloneConfiguration extends JedisCommandsConfigurer {
         config.setMaxTotal(properties.getMaxConnectionsPerHost());
         log.info("Starting conductor server using redis_standalone.");
         Host host = hostSupplier.getHosts().get(0);
-        return new JedisStandalone(new JedisPool(config, host.getHostName(), host.getPort()));
+        return new JedisStandalone(new JedisPool(config, host.getHostName(), host.getPort(), 2000, properties.getPassword()));
     }
 }

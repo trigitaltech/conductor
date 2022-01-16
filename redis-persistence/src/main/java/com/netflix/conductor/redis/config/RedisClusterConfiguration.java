@@ -37,6 +37,6 @@ public class RedisClusterConfiguration extends JedisCommandsConfigurer {
         Set<HostAndPort> hosts = hostSupplier.getHosts().stream()
             .map(h -> new HostAndPort(h.getHostName(), h.getPort()))
             .collect(Collectors.toSet());
-        return new JedisCluster(new redis.clients.jedis.JedisCluster(hosts, genericObjectPoolConfig));
+        return new JedisCluster(new redis.clients.jedis.JedisCluster(hosts,2000, 2000, 5, properties.getPassword(), genericObjectPoolConfig));
     }
 }
